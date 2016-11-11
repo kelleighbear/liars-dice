@@ -1,0 +1,14 @@
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" ui-sref="home"><i class="fa fa-fort-awesome"></i> Liar's Dice</a>
+        </div>
+
+        <ul class="nav navbar-nav navbar-right">
+            <li><a ui-sref=".home"><i class="fa fa-home"></i> Home</a></li>
+            <li><a ui-sref=".about"><i class="fa fa-question"></i> How to Play</a></li>
+            <li ng-show="!header.isPlayingGame()"><a ui-sref=".home"><i class="fa fa-sign-in"></i> Start Game</a></li>
+            <li ng-show="header.isPlayingGame()"><a ng-click="header.exitGame()" ui-sref=".home"><i class="fa fa-sign-out"></i> Exit Game</a></li>
+        </ul>
+    </div>
+</nav>

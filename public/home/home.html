@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-xs-offset-3 col-xs-6">
+        <ul class="nav nav-tabs nav-justified">
+            <li role="presentation" ng-class="{active: home.tab === 'create'}"><a ng-click="home.tab = 'create'">Create New Game</a></li>
+            <li role="presentation" ng-class="{active: home.tab === 'join'}"><a ng-click="home.tab = 'join'">Join Existing Game</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div class="tab-pane active row" ng-if="home.tab === 'create'">
+                <div class="col-xs-6 form-group">
+                    <label>Number of Players</label>
+                    <input class="form-control" type="number" min=2 max=6 ng-model='home.create.numPlayers' />
+                </div>
+                <div class="col-xs-6 form-group">
+                    <label>Number of Dice</label>
+                    <input class="form-control" type="number" min=2 max=5 ng-model='home.create.numDice' />
+                </div>
+            </div>
+            <div class="tab-pane active" ng-if="home.tab === 'join'">
+                <div class="form-group">
+                    <label>Game ID</label>
+                    <input class="form-control" type="string" ng-model='home.join.gameId' />
+                </div>
+            </div>
+            <div class="row">
+                <button class="btn btn-default pull-right margin-md-right" ng-disabled="home.isValid()" ng-click="home.submit()">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
