@@ -72,3 +72,43 @@
 .nav-tabs {
     margin-bottom: 0;
 }
+
+label > input{ /* HIDE RADIO */
+  visibility: hidden; /* Makes input not-clickable */
+  position: absolute; /* Remove input from document flow */
+}
+label > input + img{ /* IMAGE STYLES */
+  cursor:pointer;
+  border:2px solid transparent;
+}
+label > input:checked + img{ /* (RADIO CHECKED) IMAGE STYLES */
+  background-color: #ccffcc;
+}
+
+.vertical-line {
+    border-left: 1px solid #ddd;
+}
+
+.die-face {
+  margin: 5px;
+}
+
+.red-player {
+  color: red;
+}
+
+.green-player {
+  color: green;
+}
+
+.blue-player {
+  color: blue;
+}
+
+.purple-player {
+  color: purple;
+}
+
+.orange-player {
+  color: orange
+}

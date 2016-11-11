@@ -1,1 +1,77 @@
-{{game}}
+<div class="row">
+    <div class="col-xs-9">
+        <div id="otherPlayers" class="row">
+            <div class="margin-xl-top" ng-repeat="player in game.game.playerHands track by $index">
+                <div ng-if="$index !== game.currentPlayer" class="col-xs-3 text-center">
+                    <i class="fa fa-user fa-4x {{game.colors[$parent.$index]}}"></i>
+                    <br>Player {{$parent.$index + 1}}
+                    <br>
+                    <img ng-if="!game.showAll" ng-repeat="face in player track by $index" src="img/face.png" class="die-face" height=32 width=32/>
+                    <img ng-if="game.showAll" ng-repeat="face in player track by $index" src="img/{{face}}.png" class="die-face" height=32 width=32/>
+                </div>
+            </div>
+        </div>
+
+        <div id="board" class="row margin-xl-top">
+          <div class="alert alert-info col-xs-11">
+            <span>Game Board</span>
+            <hr>
+            <img ng-repeat="face in game.game.board track by $index" src="img/{{face}}.png" class="die-face" height=32 width=32/>
+            <div ng-if="game.game.board.length === 0">There are currently no dice on the board</div>
+          </div>
+        </div>
+
+        <div id="currentPlayer" class="row margin-xl-top text-center">
+            <i class="fa fa-user fa-4x {{game.colors[game.currentPlayer]}}"></i>
+            <h3>Player {{game.currentPlayer + 1}}</h3>
+            <img ng-repeat="face in game.game.playerHands[game.currentPlayer] track by $index" src="img/{{face}}.png" class="die-face" height=64 width=64/>
+            <br>
+            <h4>Actions</h4>
+            <div class="text-left">
+                <div class="col-xs-3 col-xs-offset-3">
+                    <label>Challenge the last action?</label><br>
+                    <button class="btn btn-default margin-sm-top" ng-disabled="game.game.actions.length === 0" ng-click="game.makeChallenge()">Challenge</button>
+                    <div ng-if="game.challengeResults !== null" class="margin-md-top">
+                      <div ng-if="game.challengeResults" class="alert alert-success">
+                        You Win!!<br><a ui-sref="^.start">Start New Game?</a>
+                      </div>
+                      <div ng-if="!game.challengeResults" class="alert alert-danger">
+                        You Lost :(<br><a ui-sref="^.start">Start New Game?</a>
+                      </div>
+                    </div>
+                </div>
+                <div class="vertical-line col-xs-6">
+                    <div class="form-group">
+                        <label>Move Forward</label><br>
+                        <label ng-repeat="face in [1,2,3,4,5,6] track by $index">
+                            <input type="radio" name="moveFace" ng-value="{{face}}" ng-model="game.claim.moveFace" ng-change="game.calcMaxNumToMove()" />
+                            <img ng-if="game.game.playerHands[game.currentPlayer].indexOf(face) !== -1" src="img/{{face}}.png" class="die-face" height=24 widht=24>
+                        </label><br>
+                        <input type="number" min=0 ng-max="{{game.maxNumToMove}}" ng-model="game.claim.moveNumber" />
+                    </div>
+                    <div class="form-group">
+                        <label>Claim</label><br>
+                        <label ng-repeat="face in [1,2,3,4,5,6] track by $index">
+                            <input type="radio" name="claimFace" ng-value="{{face}}" ng-model="game.claim.claimFace" required=true/>
+                            <img src="img/{{face}}.png" class="die-face" height=24 widht=24>
+                        </label><br>
+                        <input type="number" default-value="{{game.lastClaimNumber+1}}" ng-min="game.lastClaimNumber+1" ng-max="game.totalNumDice" ng-model="game.claim.claimNumber" required=true/>
+                        <br>
+                        <button class="btn btn-default margin-md-top" ng-disabled="game.isInvalidClaim()" ng-click="game.makeClaim()">Claim</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div id="gameInfo" class="alert alert-info col-xs-3" role="alert">
+        <span>Game {{game.game._id}}</span>
+        <hr>
+        <div ng-if="game.actions.length === 0">
+          There are currently no actions
+        </div>
+        <div ng-repeat="action in game.actions track by $index">
+            {{action}}
+        </div>
+    </div>
+</div>

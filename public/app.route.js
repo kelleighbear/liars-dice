@@ -25,13 +25,13 @@
                     }
                 }
             })
-            .state('root.home', {
-                url: 'home',
+            .state('root.start', {
+                url: 'start',
                 views: {
                     'tab-content@root': {
-                        templateUrl: 'home/home.html',
-                        controller: 'HomeController',
-                        controllerAs: 'home'
+                        templateUrl: 'start/start.html',
+                        controller: 'StartController',
+                        controllerAs: 'start'
                     }
                 }
             })
@@ -45,11 +45,11 @@
                       }
                   }
               })
-              .state('root.about', {
-                  url: 'about',
+              .state('root.home', {
+                  url: 'home',
                   views: {
                       'tab-content@root': {
-                          templateUrl: 'about/about.html'
+                          templateUrl: 'home/home.html'
                       }
                   }
               });

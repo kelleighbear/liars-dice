@@ -1,30 +1,14 @@
 <div class="row">
-    <div class="col-xs-offset-3 col-xs-6">
-        <ul class="nav nav-tabs nav-justified">
-            <li role="presentation" ng-class="{active: home.tab === 'create'}"><a ng-click="home.tab = 'create'">Create New Game</a></li>
-            <li role="presentation" ng-class="{active: home.tab === 'join'}"><a ng-click="home.tab = 'join'">Join Existing Game</a></li>
-        </ul>
-
-        <div class="tab-content">
-            <div class="tab-pane active row" ng-if="home.tab === 'create'">
-                <div class="col-xs-6 form-group">
-                    <label>Number of Players</label>
-                    <input class="form-control" type="number" min=2 max=6 ng-model='home.create.numPlayers' />
-                </div>
-                <div class="col-xs-6 form-group">
-                    <label>Number of Dice</label>
-                    <input class="form-control" type="number" min=2 max=5 ng-model='home.create.numDice' />
-                </div>
-            </div>
-            <div class="tab-pane active" ng-if="home.tab === 'join'">
-                <div class="form-group">
-                    <label>Game ID</label>
-                    <input class="form-control" type="string" ng-model='home.join.gameId' />
-                </div>
-            </div>
-            <div class="row">
-                <button class="btn btn-default pull-right margin-md-right" ng-disabled="home.isValid()" ng-click="home.submit()">Submit</button>
-            </div>
-        </div>
-    </div>
+    <h3 class="text-center">Liar's Dice</h3>
+    <hr>
+    <p>Liar's dice is a class of dice games for two or more players requiring the ability to deceive and detect an opponent's deception. The genre has its roots in South America, with games there being known as Dudo, Cachito, Perudo or Dadinho; other names
+        include "pirate's dice," "deception dice" and "diception."</p>
+    <h3 class="margin-xl-top text-center">The Rules</h3>
+    <hr>
+        <p>To begin each round, all players roll their dice simultaneously. Each player looks at their own dice after they roll, keeping them hidden from the other players.</p>
+        <p>The first player then states a bid consisting of a face ("1's", "5's", etc.) and a quantity. The quantity represents the player's guess as to how many of each face have been rolled by all the players at the table, including themselves. For example,
+            a player might bid "five 2's."</p>
+        <p>The next player must either challenge the previous player's claim, or make a new claim that is at least one die higher (it can be an different number is the player chooses).</p>
+        <p>If the player challenges the previous bid, all players reveal their dice. If the bid is matched or exceeded, the bidder wins. Otherwise the challenger wins.</p>
+        <p>In this version of Liar's Dice, when a challenge is made, the game is over, and either the bidder or the challenger wins.</p>
 </div>

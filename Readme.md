@@ -1,5 +1,4 @@
 ## Liars Dice Web App
-#### A simple imperfect node backend + Angular skeleton for UI engineer interviews
 
 ###Liar's Dice
 
@@ -9,17 +8,6 @@ After a player places dice on the board and makes a bid(note: the player doesn't
 
 The next player must either challenge the previous player's claim, or make a new claim that is at least one die higher (it can be an different number is the player chooses). For example, "There are at least 11 4s" or "There are at least 11 3s".
 
-###The Exercise
-
-Write a JavaScript front end application for playing a game of Liar's Dice!
-
-The game should allow the user to:
-
-* Start a new game, specifying the number of players and number of dice per player.
-* See the current state of the game (including player's turn, number of dice, etc.)
-* Move dice to the middle, claim a number of dice in hand, or challenge the last player's claim
-* See all moves taken by players in the game
-
 ## Setting up the app
 
 1. Clone the repository locally
@@ -28,59 +16,3 @@ The game should allow the user to:
 4. node index.js
 
 The server will run on localhost:8080
-
-## Front end skeleton
-
-A bare-bones HTML page that loads a bare-bones Angular app and displays a stubbed game is included in the /public folder of the repository. Please place your developed application in this repository.
-
-## Verifying backend API
-
-There is a Postman collection included test/LiarsDice.json.postman_collection. This file can be loaded into the Chrome app, Postman and demonstrates usage of all the endpoints.
-
-## Endpoints
-
-Start a new game
-
-```
-POST /games
-  numPlayers: Integer
-  numDice: Integer
-```
-
-Get a single game
-
-```
-GET /games/:id
-```
-
-List Games
-
-```
-GET /games
-```
-
-On a users turn, they can either make a claim and move dice to the middle, or challenge the previous player.
-
-Make a claim
-
-```
-POST /games/:id/claim
-  player: Integer
-  moveNumber: Integer
-  moveFace: Integer
-  claimNumber: Integer
-  claimFace: Integer
-```
-
-Challenge the last move
-
-```
-POST /games/:id/challenge
-  player: Integer
-```
-
-##Submission
-
-The final submission or any questions related to the excercise should be sent to recruiting@bypassmobile.com
-
-Thanks!
