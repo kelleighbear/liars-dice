@@ -13,52 +13,71 @@
         </div>
 
         <div id="board" class="row margin-xl-top">
-          <div class="alert alert-info col-xs-11">
-            <span>Game Board</span>
-            <hr>
-            <img ng-repeat="face in game.game.board track by $index" src="img/{{face}}.png" class="die-face" height=32 width=32/>
-            <div ng-if="game.game.board.length === 0">There are currently no dice on the board</div>
-          </div>
+            <div class="alert alert-info col-xs-11">
+                <span>Game Board</span>
+                <hr>
+                <img ng-repeat="face in game.game.board track by $index" src="img/{{face}}.png" class="die-face" height=32 width=32/>
+                <div ng-if="game.game.board.length === 0">There are currently no dice on the board</div>
+            </div>
         </div>
 
         <div id="currentPlayer" class="row margin-xl-top text-center">
-            <i class="fa fa-user fa-4x {{game.colors[game.currentPlayer]}}"></i>
-            <h3>Player {{game.currentPlayer + 1}}</h3>
+            <div class="{{game.colors[game.currentPlayer]}} change-player">
+                <i class="fa fa-user fa-4x"></i>
+                <h3>Player {{game.currentPlayer + 1}}</h3>
+            </div>
             <img ng-repeat="face in game.game.playerHands[game.currentPlayer] track by $index" src="img/{{face}}.png" class="die-face" height=64 width=64/>
             <br>
             <h4>Actions</h4>
             <div class="text-left">
                 <div class="col-xs-3 col-xs-offset-3">
-                    <label>Challenge the last action?</label><br>
-                    <button class="btn btn-default margin-sm-top" ng-disabled="game.game.actions.length === 0" ng-click="game.makeChallenge()">Challenge</button>
+                    <label>Challenge the last action?</label>
+                    <br>
+                    <button class="btn btn-default margin-sm-top" ng-disabled="game.game.actions.length === 0 || game.challengeResults !== null" ng-click="game.makeChallenge()">Challenge</button>
                     <div ng-if="game.challengeResults !== null" class="margin-md-top">
-                      <div ng-if="game.challengeResults" class="alert alert-success">
-                        You Win!!<br><a ui-sref="^.start">Start New Game?</a>
-                      </div>
-                      <div ng-if="!game.challengeResults" class="alert alert-danger">
-                        You Lost :(<br><a ui-sref="^.start">Start New Game?</a>
-                      </div>
+                        <div ng-if="game.challengeResults" class="alert alert-success">
+                            You Win!!
+                            <br><a ui-sref="^.start" ng-click="game.endGame()">Start New Game?</a>
+                        </div>
+                        <div ng-if="!game.challengeResults" ng-click="game.endGame()" class="alert alert-danger">
+                            You Lost :(
+                            <br><a ui-sref="^.start">Start New Game?</a>
+                        </div>
                     </div>
                 </div>
                 <div class="vertical-line col-xs-6">
-                    <div class="form-group">
-                        <label>Move Forward</label><br>
-                        <label ng-repeat="face in [1,2,3,4,5,6] track by $index">
-                            <input type="radio" name="moveFace" ng-value="{{face}}" ng-model="game.claim.moveFace" ng-change="game.calcMaxNumToMove()" />
-                            <img ng-if="game.game.playerHands[game.currentPlayer].indexOf(face) !== -1" src="img/{{face}}.png" class="die-face" height=24 widht=24>
-                        </label><br>
-                        <input type="number" min=0 ng-max="{{game.maxNumToMove}}" ng-model="game.claim.moveNumber" />
-                    </div>
-                    <div class="form-group">
-                        <label>Claim</label><br>
-                        <label ng-repeat="face in [1,2,3,4,5,6] track by $index">
-                            <input type="radio" name="claimFace" ng-value="{{face}}" ng-model="game.claim.claimFace" required=true/>
-                            <img src="img/{{face}}.png" class="die-face" height=24 widht=24>
-                        </label><br>
-                        <input type="number" default-value="{{game.lastClaimNumber+1}}" ng-min="game.lastClaimNumber+1" ng-max="game.totalNumDice" ng-model="game.claim.claimNumber" required=true/>
-                        <br>
-                        <button class="btn btn-default margin-md-top" ng-disabled="game.isInvalidClaim()" ng-click="game.makeClaim()">Claim</button>
-                    </div>
+                    <form name="game.form">
+                        <div class="form-group">
+                            <label>Move Forward</label>
+                            <br>
+                            <label ng-repeat="face in [1,2,3,4,5,6] track by $index">
+                                <input type="radio" ng-value="{{face}}" ng-model="game.claim.moveFace" ng-change="game.calcMaxNumToMove()" />
+                                <img ng-if="game.game.playerHands[game.currentPlayer].indexOf(face) !== -1" src="img/{{face}}.png" class="die-face" height=24 widht=24>
+                            </label>
+                            <br>
+                            <input type="number" name="numMove" min=0 ng-max="{{game.maxNumToMove}}" ng-model="game.claim.moveNumber" />
+                        </div>
+                        <div class="form-group">
+                            <label>Claim
+                                <span class="text-danger"> *</span>
+                            </label>
+                            <br>
+                            <label ng-repeat="face in [1,2,3,4,5,6] track by $index">
+                                <input type="radio" name="claimFace" ng-value="{{face}}" ng-model="game.claim.claimFace" required=true/>
+                                <img src="img/{{face}}.png" class="die-face" height=24 widht=24>
+                            </label>
+                            <br>
+                            <input type="number" name="claimNum" ng-init="game.claim.claimNumber=game.lastClaimNumber+1" ng-min="game.lastClaimNumber+1" ng-max="game.totalNumDice" ng-model="game.claim.claimNumber" ng-model-options="{ updateOn: 'blur' }" required=true/>
+                            <div ng-messages="game.form.claimNum.$dirty && game.form.claimNum.$error" style="color:red" role="alert">
+                                <div ng-message="required">Please enter a value for this field.</div>
+                                <div ng-message="number">You did not enter a valid number.</div>
+                                <div ng-message="min">You need to claim at least {{game.lastClaimNumber+1}}.</div>
+                                <div ng-message="max">There's only {{game.totalNumDice}} dice in the game.</div>
+                            </div>
+                            <br>
+                            <button class="btn btn-default margin-md-top" ng-disabled="game.isInvalidClaim()" ng-click="game.makeClaim()">Claim</button>
+                        </div>
+                    </form>
                 </div>
 
             </div>
@@ -68,7 +87,7 @@
         <span>Game {{game.game._id}}</span>
         <hr>
         <div ng-if="game.actions.length === 0">
-          There are currently no actions
+            There are currently no actions
         </div>
         <div ng-repeat="action in game.actions track by $index">
             {{action}}

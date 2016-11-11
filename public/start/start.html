@@ -7,14 +7,28 @@
 
         <div class="tab-content">
             <div class="tab-pane active row" ng-if="start.tab === 'create'">
+              <form name="form">
                 <div class="col-xs-6 form-group">
                     <label>Number of Players</label>
-                    <input class="form-control" type="number" min=2 max=5 ng-model='start.create.numPlayers' />
+                    <input class="form-control" name="players" type="number" ng-init="start.create.numPlayers=3" min=2 max=5 ng-model='start.create.numPlayers' ng-model-options="{ updateOn: 'blur' }" required/>
+                    <div ng-messages="form.players.$dirty && form.players.$error" style="color:red" role="alert">
+                        <div ng-message="required">Please enter a value for this field.</div>
+                        <div ng-message="number">You did not enter a valid number.</div>
+                        <div ng-message="min">A game has to have at least 2 players.</div>
+                        <div ng-message="max">No more than 5 players are allowed to play.</div>
+                    </div>
                 </div>
                 <div class="col-xs-6 form-group">
                     <label>Number of Dice</label>
-                    <input class="form-control" type="number" min=2 max=5 ng-model='start.create.numDice' />
+                    <input class="form-control" name="dice" type="number" ng-init="start.create.numDice=5" min=2 max=5 ng-model='start.create.numDice' ng-model-options="{ updateOn: 'blur' }" required/>
+                    <div ng-messages="form.dice.$dirty && form.dice.$error" style="color:red" role="alert">
+                        <div ng-message="required">Please enter a value for this field.</div>
+                        <div ng-message="number">You did not enter a valid number.</div>
+                        <div ng-message="min">Each player must have at least 2 dice.</div>
+                        <div ng-message="max">Players can have a max of 5 dice.</div>
+                    </div>
                 </div>
+              </form>
             </div>
             <div class="tab-pane active" ng-if="start.tab === 'join'">
                 <div class="form-group">

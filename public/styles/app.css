@@ -112,3 +112,7 @@ label > input:checked + img{ /* (RADIO CHECKED) IMAGE STYLES */
 .orange-player {
   color: orange
 }
+
+.change-player {
+  transition: all 1s ease-in-out;
+}

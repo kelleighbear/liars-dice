@@ -12,7 +12,10 @@
       // Variables
       vm.game = null;
       vm.currentPlayer = 0;
-      vm.claim = {};
+      vm.claim = {
+        claimNumber: vm.lastClaimNumber + 1,
+        claimFace: 1
+      };
       vm.maxNumToMove = 0;
       vm.lastClaimNumber = 0;
       vm.actions = [];
@@ -32,6 +35,7 @@
       vm.makeClaim = makeClaim;
       vm.calcMaxNumToMove = calcMaxNumToMove;
       vm.isInvalidClaim = isInvalidClaim;
+      vm.endGame = endGame;
 
       // Initialization Logic
       activate();
@@ -69,7 +73,11 @@
               vm.game = response.data.document;
               headerService.setGame(vm.game);
               vm.lastClaimNumber = vm.claim.claimNumber;
-              vm.claim = {};
+              vm.form.$setPristine(true);
+              vm.claim = {
+                claimNumber: vm.lastClaimNumber + 1,
+                claimFace: 1
+              };
               formatActionsAndGetNumDice();
               vm.currentPlayer = ++vm.currentPlayer % vm.game.numPlayers;
           }
@@ -90,7 +98,7 @@
       }
 
       function isInvalidClaim() {
-        return (vm.challengeResults || (vm.claim.moveFace && vm.claim.moveNumber > vm.maxNumToMove) || (!vm.claim.claimFace || !vm.claim.claimNumber));
+        return (vm.challengeResults !== null|| (vm.claim.moveFace && vm.claim.moveNumber > vm.maxNumToMove) || !vm.claim.claimFace || !vm.claim.claimNumber);
       }
 
       function formatActionsAndGetNumDice() {
@@ -108,6 +116,10 @@
         vm.totalNumDice = vm.game.playerHands.reduce(function(accumulator, current) {
           return accumulator + current.length;
         }, 0);
+      }
+
+      function endGame() {
+        headerService.setGame(null);
       }
 
 
